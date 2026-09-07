@@ -165,7 +165,8 @@ html.no-plate .plate::after{display:none}
 .h1-a{font:600 clamp(24px,4.4vw,52px)/1 var(--fd);letter-spacing:-.005em;white-space:nowrap}
 .h1-b{font:700 italic clamp(40px,min(10.4vw,9.6svh),112px)/.98 var(--fd);letter-spacing:-.02em;color:var(--acc2);white-space:nowrap;margin-top:.04em}
 html[lang="kk"] .h1-b{font-size:clamp(36px,min(9.4vw,9svh),100px)}
-.hero-txt .lead{font-size:clamp(15px,1.25vw,18px);line-height:1.5;color:var(--bone2);margin:18px 0 24px;width:100%}
+.hero-txt .lead{font:500 clamp(16px,1.4vw,20px)/1.55 var(--ft);color:#EAE2D6;margin:18px 0 24px;width:100%;text-shadow:0 1px 12px rgba(22,18,15,.55)}
+.hero-txt .lead em{font-style:normal;font-weight:600;color:var(--bone)}
 .hero-txt .cta{width:100%}
 @media(min-width:560px){.hero-txt .cta{width:auto}}
 
@@ -310,6 +311,26 @@ html.no-plate .ph img{transform:none}
 .km-no{border:1px solid var(--line-d);color:#4F463E}
 .km-no h3{color:var(--ink)}
 .km-no li::before{background-color:rgba(22,18,15,.1);--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2316120F' stroke-width='3' stroke-linecap='round' d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E")}
+
+/* отзывы: слоты под вертикальные видео */
+.otz{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:relative;z-index:1}
+.otz::-webkit-scrollbar{display:none}
+@media(min-width:720px){.otz{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;overflow:visible;padding-bottom:0}}
+.otz-i{flex:0 0 min(72vw,300px);scroll-snap-align:start;position:relative;background:var(--ink2);border:1px solid var(--line);clip-path:polygon(0 0,calc(100% - 34px) 0,100% 34px,100% 100%,0 100%);overflow:hidden}
+@media(min-width:720px){.otz-i{flex:auto}}
+.otz-slot{position:relative;aspect-ratio:9/16;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow:hidden}
+.otz-slot::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(112deg,rgba(241,235,226,.05) 0 1px,transparent 1px 13px)}
+.otz-slot::after{content:"";position:absolute;left:-10%;right:-10%;top:52%;height:1px;background:linear-gradient(90deg,transparent,rgba(226,103,59,.55),transparent);transform:rotate(-22deg)}
+.otz-slot>*{position:relative;z-index:1}
+.otz-i video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+.otz-i.has-vid .otz-play,.otz-i.has-vid .otz-ph,.otz-i.has-vid .otz-slot::before,.otz-i.has-vid .otz-slot::after{display:none}
+.otz-play{width:62px;height:62px;border-radius:50%;border:1.5px solid rgba(226,103,59,.7);display:grid;place-items:center;transition:transform .35s var(--ease),background .35s}
+.otz-play svg{width:26px;height:26px;fill:var(--acc2);margin-left:3px}
+.otz-i:hover .otz-play{transform:scale(1.08);background:rgba(226,103,59,.12)}
+.otz-ph{font:600 11px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.otz-i figcaption{padding:16px 18px 18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.otz-i figcaption b{font:600 italic clamp(17px,1.6vw,20px)/1.2 var(--fd);color:var(--bone)}
+.otz-i figcaption span{font-size:13px;color:var(--mut)}
 
 /* цена */
 .sec-cena{background:var(--ink2);color:var(--bone)}
