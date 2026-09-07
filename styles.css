@@ -331,12 +331,15 @@ html.no-plate .ph img{transform:none}
 .otz-i figcaption b{font:600 italic clamp(16px,1.5vw,19px)/1.2 var(--fd);color:var(--bone)}
 .otz-i figcaption span{font-size:12px;letter-spacing:.04em;color:var(--mut)}
 /* стрелки листания - на устройствах с мышью */
-.otz-nav{position:absolute;top:calc(var(--otzw)*16/9/2);transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:rgba(22,18,15,.82);color:var(--bone);display:none;place-items:center;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .25s,border-color .25s,opacity .25s}
-.otz-nav svg{width:20px;height:20px}
-.otz-nav.prev{left:-10px}
-.otz-nav.next{right:-10px}
-.otz-nav:hover{background:var(--acc);border-color:var(--acc)}
-.otz-nav[disabled]{opacity:.28;pointer-events:none}
+.otz-nav{position:absolute;top:calc(var(--otzw)*16/9/2);transform:translateY(-50%);width:60px;height:60px;border-radius:50%;border:2px solid var(--bone);background:var(--acc);color:#fff;display:none;place-items:center;cursor:pointer;box-shadow:0 14px 32px -10px rgba(0,0,0,.85);transition:background .25s,transform .25s var(--ease),opacity .25s,border-color .25s}
+.otz-nav svg{width:26px;height:26px}
+.otz-nav svg path{stroke-width:2.6}   /* презентационный атрибут stroke-width в разметке перебивается только правилом на сам path */
+.otz-nav.prev{left:-16px}
+.otz-nav.next{right:-16px}
+@media(min-width:1280px){.otz-nav.prev{left:-30px}.otz-nav.next{right:-30px}}
+.otz-nav:hover{background:var(--acc2);transform:translateY(-50%) scale(1.09)}
+.otz-nav:active{transform:translateY(-50%) scale(.96)}
+.otz-nav[disabled]{background:rgba(30,25,22,.9);border-color:rgba(241,235,226,.28);color:var(--mut);box-shadow:none;pointer-events:none}
 @media(hover:hover) and (min-width:900px){.otz-nav{display:grid}}
 
 .otz-foot{margin-top:18px;display:flex;flex-direction:column;gap:14px}
