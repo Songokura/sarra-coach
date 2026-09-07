@@ -61,11 +61,18 @@ var KZ = {
 
 "nav.otz":"Пікірлер",
 "s.oz.k":"Пікірлер","s.oz.h":"Диагностикадан өткендер не дейді",
-"s.oz.p":"Монтажсыз қысқа бейнелер: адамдар диагностикада не тапқанын және содан кейін не өзгергенін айтады.",
-"oz.1.ph":"Бейне пікір","oz.2.ph":"Бейне пікір","oz.3.ph":"Бейне пікір",
-"oz.1.n":"Клиент аты","oz.2.n":"Клиент аты","oz.3.n":"Клиент аты",
-"oz.1.r":"кәсіпкер","oz.2.r":"сарапшы","oz.3.r":"басшы",
-
+"s.oz.p":"Монтажсыз он бір жазба: Қазақстаннан, АҚШ-тан, Испаниядан, Италиядан, Чехиядан және Қырғызстаннан келген клиенттер диагностикада не тапқанын айтады.",
+"oz.hint":"Қарау үшін басыңыз · шолу үшін солға сырғытыңыз",
+"oz.01.n":"Диагностика туралы пікір","oz.02.n":"Диагностика туралы пікір","oz.03.n":"Диагностика туралы пікір",
+"oz.04.n":"Анастасия","oz.04.r":"ақшамен қарым-қатынас",
+"oz.05.n":"Зәуреш","oz.05.r":"ақшамен қарым-қатынас",
+"oz.06.n":"Татьяна","oz.06.r":"АҚШ",
+"oz.07.n":"Надежда","oz.07.r":"Испания",
+"oz.08.n":"Гүлмира","oz.08.r":"Италия",
+"oz.09.n":"Ася","oz.09.r":"Чехия",
+"oz.10.n":"Гүлнар","oz.10.r":"Қырғызстан",
+"oz.11.n":"Аягүл","oz.11.r":"тектік бағдарламалар",
+"a.play":"Бейне пікірді қарау","a.vmod":"Бейне пікір","a.close":"Жабу",
 "s.cn.k":"Құны","s.cn.h":"Ақшамен, бизнеспен және мансаппен қарым-қатынас диагностикасы",
 "cn.note":"Блоктарыңыздан бір күнде жоғалтатыныңыздан аз.",
 "cn.1":"90 минут жеке жұмыс","cn.2":"Офлайн немесе онлайн","cn.3":"Нәтиже - неден бастау керегі айқын болады","cn.4":"Кейін 14 күн қолдау",
@@ -496,6 +503,70 @@ if (form) form.addEventListener("submit", function(e){
   if (ok) ok.hidden = false;
   form.reset();
 });
+
+/* ---------------- ВИДЕО-ОТЗЫВЫ ---------------- */
+(function(){
+  var strip = document.getElementById("otz");
+  var mod = document.getElementById("vmod"), mv = document.getElementById("vmodv"), mx = document.getElementById("vmodx");
+  var mc = document.getElementById("vmodc");
+  if (!strip) return;
+
+  /* немые петли-превью: src подставляется, когда карточка в кадре */
+  var loops = strip.querySelectorAll(".otz-loop");
+  function stop(v){
+    v.classList.remove("is-live");
+    try { v.pause(); } catch(e){}
+    if (v.getAttribute("src")) { v.removeAttribute("src"); v.load(); }
+  }
+  function start(v){
+    if (RED) return;                                   /* уважаем prefers-reduced-motion */
+    if (!v.getAttribute("src")) v.setAttribute("src", v.dataset.src);
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(function(){});
+  }
+  if (HAS_IO && !RED) {
+    var vio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) start(e.target); else stop(e.target); });
+    }, {threshold:.55});
+    loops.forEach(function(v){
+      v.addEventListener("playing", function(){ v.classList.add("is-live"); });
+      vio.observe(v);
+    });
+  }
+
+  /* полный ролик со звуком - по клику, в модалке */
+  if (!mod || !mv) return;
+  var opener = null;
+  function open(src, btn){
+    opener = btn || null;
+    if (btn && btn.dataset.poster) mv.setAttribute("poster", btn.dataset.poster); else mv.removeAttribute("poster");
+    mv.setAttribute("src", src);
+    if (mc) {
+      var cap = btn && btn.parentNode ? btn.parentNode.querySelector("figcaption") : null;
+      mc.innerHTML = cap ? cap.innerHTML : "";
+    }
+    mod.classList.add("is-open");
+    document.body.classList.add("vmod-open");
+    loops.forEach(stop);
+    var pr = mv.play();
+    if (pr && pr.catch) pr.catch(function(){});
+    if (mx) mx.focus();
+  }
+  function close(){
+    mod.classList.remove("is-open");
+    document.body.classList.remove("vmod-open");
+    try { mv.pause(); } catch(e){}
+    mv.removeAttribute("src"); mv.load();
+    if (opener) { opener.focus(); opener = null; }
+  }
+  strip.addEventListener("click", function(e){
+    var b = e.target.closest(".otz-slot");
+    if (b && b.dataset.full) open(b.dataset.full, b);
+  });
+  if (mx) mx.addEventListener("click", close);
+  mod.addEventListener("click", function(e){ if (e.target === mod) close(); });
+  addEventListener("keydown", function(e){ if (e.key === "Escape" && mod.classList.contains("is-open")) close(); });
+})();
 
 /* ---------------- СТАРТ ---------------- */
 snapshot();

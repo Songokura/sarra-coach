@@ -312,25 +312,38 @@ html.no-plate .ph img{transform:none}
 .km-no h3{color:var(--ink)}
 .km-no li::before{background-color:rgba(22,18,15,.1);--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2316120F' stroke-width='3' stroke-linecap='round' d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E")}
 
-/* отзывы: слоты под вертикальные видео */
-.otz{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:relative;z-index:1}
+/* отзывы: лента вертикальных видео клиента */
+.otz{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:relative;z-index:1}
 .otz::-webkit-scrollbar{display:none}
-@media(min-width:720px){.otz{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;overflow:visible;padding-bottom:0}}
-.otz-i{flex:0 0 min(72vw,300px);scroll-snap-align:start;position:relative;background:var(--ink2);border:1px solid var(--line);clip-path:polygon(0 0,calc(100% - 34px) 0,100% 34px,100% 100%,0 100%);overflow:hidden}
-@media(min-width:720px){.otz-i{flex:auto}}
-.otz-slot{position:relative;aspect-ratio:9/16;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow:hidden}
-.otz-slot::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(112deg,rgba(241,235,226,.05) 0 1px,transparent 1px 13px)}
-.otz-slot::after{content:"";position:absolute;left:-10%;right:-10%;top:52%;height:1px;background:linear-gradient(90deg,transparent,rgba(226,103,59,.55),transparent);transform:rotate(-22deg)}
-.otz-slot>*{position:relative;z-index:1}
-.otz-i video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
-.otz-i.has-vid .otz-play,.otz-i.has-vid .otz-ph,.otz-i.has-vid .otz-slot::before,.otz-i.has-vid .otz-slot::after{display:none}
-.otz-play{width:62px;height:62px;border-radius:50%;border:1.5px solid rgba(226,103,59,.7);display:grid;place-items:center;transition:transform .35s var(--ease),background .35s}
-.otz-play svg{width:26px;height:26px;fill:var(--acc2);margin-left:3px}
-.otz-i:hover .otz-play{transform:scale(1.08);background:rgba(226,103,59,.12)}
-.otz-ph{font:600 11px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
-.otz-i figcaption{padding:16px 18px 18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
-.otz-i figcaption b{font:600 italic clamp(17px,1.6vw,20px)/1.2 var(--fd);color:var(--bone)}
-.otz-i figcaption span{font-size:13px;color:var(--mut)}
+@media(min-width:760px){.otz{gap:18px}}
+.otz-i{flex:0 0 min(70vw,262px);scroll-snap-align:start;position:relative;background:var(--ink2);border:1px solid var(--line);clip-path:polygon(0 0,calc(100% - 30px) 0,100% 30px,100% 100%,0 100%);overflow:hidden;transition:border-color .3s}
+.otz-i:hover{border-color:rgba(226,103,59,.45)}
+.otz-slot{position:relative;display:block;width:100%;aspect-ratio:9/16;padding:0;margin:0;border:0;background:var(--ink);cursor:pointer;overflow:hidden}
+.otz-slot img,.otz-slot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.otz-slot video{opacity:0;transition:opacity .45s var(--ease)}
+.otz-slot video.is-live{opacity:1}
+.otz-slot::after{content:"";position:absolute;inset:auto 0 0 0;height:38%;background:linear-gradient(180deg,rgba(22,18,15,0),rgba(22,18,15,.62));pointer-events:none}
+.otz-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(22,18,15,.42);border:1.5px solid rgba(241,235,226,.75);display:grid;place-items:center;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transition:transform .35s var(--ease),background .3s,border-color .3s;pointer-events:none}
+.otz-play svg{width:24px;height:24px;fill:var(--bone);margin-left:3px}
+.otz-i:hover .otz-play{transform:translate(-50%,-50%) scale(1.1);background:var(--acc);border-color:var(--acc)}
+.otz-i figcaption{padding:14px 16px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:3px}
+.otz-i figcaption b{font:600 italic clamp(16px,1.5vw,19px)/1.2 var(--fd);color:var(--bone)}
+.otz-i figcaption span{font-size:12px;letter-spacing:.04em;color:var(--mut)}
+.otz-hint{margin-top:16px;font:600 11px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:10px}
+.otz-hint::before{content:"";width:34px;height:1px;background:var(--acc)}
+
+/* плеер отзыва */
+.vmod{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(12,9,8,.94);opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility 0s .3s}
+.vmod.is-open{opacity:1;visibility:visible;transition:opacity .3s var(--ease)}
+.vmod-in{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:100%}
+.vmod video{height:min(70vh,820px);width:auto;aspect-ratio:9/16;object-fit:contain;background:#000;max-width:100%;border:1px solid var(--line)}
+.vmod-cap{font:600 italic clamp(16px,1.6vw,20px)/1.2 var(--fd);color:var(--bone);text-align:center}
+.vmod-cap span{display:block;font:500 12px/1.4 var(--ft);letter-spacing:.06em;color:var(--mut);margin-top:5px;font-style:normal}
+.vmod-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(30,25,22,.9);color:var(--bone);display:grid;place-items:center;cursor:pointer;transition:background .25s,border-color .25s}
+.vmod-x svg{width:20px;height:20px}
+.vmod-x:hover{background:var(--acc);border-color:var(--acc)}
+body.vmod-open{overflow:hidden}
+body.vmod-open .hdr,body.vmod-open .bar{opacity:0;pointer-events:none;transition:opacity .25s}
 
 /* цена */
 .sec-cena{background:var(--ink2);color:var(--bone)}
