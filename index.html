@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,600;0,7..72,700;1,7..72,600;1,7..72,700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260907-2">
+<link rel="stylesheet" href="styles.css?v=20260907-3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ProfessionalService","name":"Сарра Жума · гипно-коуч",
 "description":"Диагностика денежных блоков: 90 минут личной работы с гипно-коучем, офлайн или онлайн. Список установок, план прорыва, поддержка 14 дней.",
@@ -291,7 +291,8 @@
       <h2 data-i="s.oz.h">Что говорят те, кто уже прошёл диагностику</h2>
       <p class="sec-lead" data-i="s.oz.p">Одиннадцать записей без монтажа: клиенты из Казахстана, США, Испании, Италии, Чехии и Кыргызстана рассказывают, что нашли на диагностике.</p>
     </div>
-    <div class="otz" id="otz">
+    <div class="otz-wrap">
+      <div class="otz" id="otz">
       <figure class="otz-i rv">
         <button class="otz-slot" type="button" data-full="assets/otz/otz-01.mp4" data-poster="assets/otz/otz-01.webp" aria-label="Смотреть видео-отзыв" data-i-aria="a.play">
           <img src="assets/otz/otz-01.webp" alt="" width="480" height="854" loading="lazy" decoding="async">
@@ -410,8 +411,18 @@
           <span data-i="oz.11.r">родовые программы</span>
         </figcaption>
       </figure>
+      </div>
+      <button class="otz-nav prev" id="otzprev" type="button" aria-label="Предыдущие отзывы" data-i-aria="a.prev" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="otz-nav next" id="otznext" type="button" aria-label="Следующие отзывы" data-i-aria="a.next">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
     </div>
-    <p class="otz-hint rv" data-i="oz.hint">Нажмите, чтобы включить со звуком · листайте вбок</p>
+    <div class="otz-foot rv">
+      <p class="otz-hint" data-i="oz.hint">Нажмите, чтобы включить со звуком</p>
+      <div class="otz-bar" aria-hidden="true"><i id="otzbar"></i></div>
+    </div>
   </div>
 </section>
 
@@ -534,6 +545,6 @@
   <a href="https://wa.me/77056304013" data-wa="hero"><svg aria-hidden="true"><use href="#ic-wa"/></svg><span>WhatsApp</span></a>
 </div>
 
-<script src="script.js?v=20260907-2" defer></script>
+<script src="script.js?v=20260907-3" defer></script>
 </body>
 </html>

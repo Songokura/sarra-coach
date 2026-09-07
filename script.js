@@ -62,7 +62,7 @@ var KZ = {
 "nav.otz":"Пікірлер",
 "s.oz.k":"Пікірлер","s.oz.h":"Диагностикадан өткендер не дейді",
 "s.oz.p":"Монтажсыз он бір жазба: Қазақстаннан, АҚШ-тан, Испаниядан, Италиядан, Чехиядан және Қырғызстаннан келген клиенттер диагностикада не тапқанын айтады.",
-"oz.hint":"Қарау үшін басыңыз · шолу үшін солға сырғытыңыз",
+"oz.hint":"Дыбыспен қосу үшін басыңыз",
 "oz.01.n":"Диагностика туралы пікір","oz.02.n":"Диагностика туралы пікір","oz.03.n":"Диагностика туралы пікір",
 "oz.04.n":"Анастасия","oz.04.r":"ақшамен қарым-қатынас",
 "oz.05.n":"Зәуреш","oz.05.r":"ақшамен қарым-қатынас",
@@ -72,7 +72,7 @@ var KZ = {
 "oz.09.n":"Ася","oz.09.r":"Чехия",
 "oz.10.n":"Гүлнар","oz.10.r":"Қырғызстан",
 "oz.11.n":"Аягүл","oz.11.r":"тектік бағдарламалар",
-"a.play":"Бейне пікірді қарау","a.vmod":"Бейне пікір","a.close":"Жабу",
+"a.play":"Бейне пікірді қарау","a.vmod":"Бейне пікір","a.close":"Жабу","a.prev":"Алдыңғы пікірлер","a.next":"Келесі пікірлер",
 "s.cn.k":"Құны","s.cn.h":"Ақшамен, бизнеспен және мансаппен қарым-қатынас диагностикасы",
 "cn.note":"Блоктарыңыздан бір күнде жоғалтатыныңыздан аз.",
 "cn.1":"90 минут жеке жұмыс","cn.2":"Офлайн немесе онлайн","cn.3":"Нәтиже - неден бастау керегі айқын болады","cn.4":"Кейін 14 күн қолдау",
@@ -533,6 +533,44 @@ if (form) form.addEventListener("submit", function(e){
       vio.observe(v);
     });
   }
+
+  /* стрелки и полоса прогресса */
+  (function(){
+    var prev = document.getElementById("otzprev"), next = document.getElementById("otznext"),
+        bar = document.getElementById("otzbar");
+    var card = strip.querySelector(".otz-i");
+    function step(){
+      if (!card) return strip.clientWidth * .8;
+      var g = parseFloat(getComputedStyle(strip).columnGap || getComputedStyle(strip).gap) || 14;
+      var w = card.getBoundingClientRect().width + g;
+      return Math.max(w, Math.floor(strip.clientWidth / w) * w);   /* листаем экранами, не по одной */
+    }
+    function sync(){
+      var slot = strip.querySelector(".otz-slot");           /* стрелки - по центру кадра, не по центру карточки с подписью */
+      if (slot && (prev || next)) {
+        var y = slot.offsetTop + slot.offsetHeight / 2 + "px";
+        if (prev) prev.style.top = y;
+        if (next) next.style.top = y;
+      }
+      var max = strip.scrollWidth - strip.clientWidth;
+      if (prev) prev.disabled = strip.scrollLeft <= 2;
+      if (next) next.disabled = strip.scrollLeft >= max - 2;
+      if (bar) {
+        var vis = strip.clientWidth / strip.scrollWidth;
+        bar.style.width = (vis * 100) + "%";
+        bar.style.transform = "translateX(" + (max > 0 ? (strip.scrollLeft / max) * ((1 - vis) / vis) * 100 : 0) + "%)";
+      }
+    }
+    function go(dir){
+      strip.scrollLeft += dir * step();
+      sync(); setTimeout(sync, 80); setTimeout(sync, 450);   /* событие scroll ждать нельзя: smooth-скролл ещё летит */
+    }
+    if (prev) prev.addEventListener("click", function(){ go(-1); });
+    if (next) next.addEventListener("click", function(){ go(1); });
+    strip.addEventListener("scroll", sync, {passive:true});
+    addEventListener("resize", sync);
+    sync();
+  })();
 
   /* полный ролик со звуком - по клику, в модалке */
   if (!mod || !mv) return;
