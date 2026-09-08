@@ -5,6 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-i="m.title">Диагностика денежных блоков за 90 минут - гипно-коуч Сарра Жума</title>
 <meta name="description" data-i-c="m.desc" content="Сарра-Айгуль Жума, гипно-коуч с 13-летней практикой: диагностика денежных блоков за 90 минут, офлайн или онлайн. Список ваших установок, план прорыва и техники на каждый день. 9 900 ₸, гарантия возврата. Тест «Денежный детектор» из 15 вопросов.">
+<!-- Google tag (gtag.js) - Google Ads AW-18437819356 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18437819356"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18437819356');
+
+  /* цели Google Ads */
+  var AW_CONV = {
+    tel:  'AW-18437819356/bW-0CO2ekfEcENyX69dE',   /* Интерактивные номера телефонов */
+    form: 'AW-18437819356/AL3ICOqwkfEcENyX69dE',   /* Отправка формы для потенциальных клиентов */
+    kont: 'AW-18437819356/WZsdCJ-qkfEcENyX69dE'    /* Контакт (WhatsApp, Instagram) */
+  };
+  /* общий репортер: url - куда уйти после отправки (для tel:) */
+  function awReport(sendTo, url){
+    var went = false;
+    var go = function(){ if (went) return; went = true; if (typeof url !== 'undefined') window.location = url; };
+    try {
+      gtag('event', 'conversion', {
+        'send_to': sendTo, 'value': 1.0, 'currency': 'USD', 'event_callback': go
+      });
+    } catch (e) { go(); return false; }
+    if (typeof url !== 'undefined') setTimeout(go, 900);   /* страховка, если ответа нет */
+    return false;
+  }
+  /* штатная обёртка Google для кликов по номеру телефона */
+  function gtag_report_conversion(url){ return awReport(AW_CONV.tel, url); }
+</script>
 <link rel="canonical" href="https://sarracoach.kz/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Сарра Жума · гипно-коуч">
@@ -23,7 +52,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,600;0,7..72,700;1,7..72,600;1,7..72,700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260907-6">
+<link rel="stylesheet" href="styles.css?v=20260908-1">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ProfessionalService","name":"Сарра Жума · гипно-коуч",
 "description":"Диагностика денежных блоков: 90 минут личной работы с гипно-коучем, офлайн или онлайн. Список установок, план прорыва, поддержка 14 дней.",
@@ -545,6 +574,6 @@
   <a href="https://wa.me/77056304013" data-wa="hero"><svg aria-hidden="true"><use href="#ic-wa"/></svg><span>WhatsApp</span></a>
 </div>
 
-<script src="script.js?v=20260907-6" defer></script>
+<script src="script.js?v=20260908-1" defer></script>
 </body>
 </html>

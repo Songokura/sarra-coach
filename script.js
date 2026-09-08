@@ -499,6 +499,7 @@ if (form) form.addEventListener("submit", function(e){
   var text = (kk ? "Сәлеметсіз бе, Сарра! Сайттан өтінім.\nАтым: " : "Здравствуйте, Сарра! Заявка с сайта.\nИмя: ") + name +
              (kk ? "\nТелефон: " : "\nТелефон: ") + phone +
              (msg ? (kk ? "\nСұрағым: " : "\nЗапрос: ") + msg : "");
+  if (window.awReport && window.AW_CONV) awReport(AW_CONV.form);   /* цель: отправка формы */
   window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(text), "_blank", "noopener");
   if (ok) ok.hidden = false;
   form.reset();
@@ -610,3 +611,28 @@ if (form) form.addEventListener("submit", function(e){
 snapshot();
 initLang();
 })();
+
+
+/* ---------------- КОНВЕРСИИ GOOGLE ADS ---------------- */
+/* цели объявлены в <head>: awReport / AW_CONV / gtag_report_conversion */
+document.addEventListener("click", function(e){
+  if (!window.awReport || !window.AW_CONV) return;
+  var a = e.target.closest ? e.target.closest("a[href]") : null;
+  if (!a) return;
+  var href = a.getAttribute("href") || "";
+
+  /* клик по номеру телефона: отправляем цель и уходим по ссылке через callback */
+  if (href.indexOf("tel:") === 0){
+    if (a.dataset.awSent) return;                 /* уже отправляли - не зацикливаемся */
+    a.dataset.awSent = "1";
+    e.preventDefault();
+    gtag_report_conversion(href);
+    setTimeout(function(){ delete a.dataset.awSent; }, 2000);
+    return;
+  }
+
+  /* контакт: WhatsApp и Instagram открываются в новой вкладке, редирект не нужен */
+  if (href.indexOf("wa.me") > -1 || href.indexOf("instagram.com") > -1){
+    awReport(AW_CONV.kont);
+  }
+}, true);
