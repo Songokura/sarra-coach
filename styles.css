@@ -313,6 +313,22 @@ html.no-plate .ph img{transform:none}
 .km-no li::before{background-color:rgba(22,18,15,.1);--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2316120F' stroke-width='3' stroke-linecap='round' d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E")}
 
 /* отзывы: лента вертикальных видео клиента */
+/* синдром самозванца: терракотовый пласт между светлым и тёмным блоком */
+.sec-acc{background:linear-gradient(160deg,var(--acc-d) 0%,var(--acc) 70%);color:var(--ink)}
+.sec-acc .kick{color:var(--ink)}
+.sec-acc .kick::before{background:var(--ink)}
+.fault-6{color:var(--ink);opacity:.2;width:46%;right:-8%;top:-20%}
+.imp{display:grid;border-top:1.5px solid rgba(22,18,15,.28)}
+@media(min-width:860px){.imp{grid-template-columns:1fr 1fr;column-gap:48px}}
+.imp li{position:relative;padding:18px 0 18px 34px;border-bottom:1.5px solid rgba(22,18,15,.28);font:600 clamp(19px,2.2vw,28px)/1.2 var(--fd);color:var(--ink)}
+.imp li::before{content:"";position:absolute;left:2px;top:calc(18px + .6em);width:18px;height:1.5px;background:var(--ink);transform:rotate(-33deg)}
+.imp-foot{display:flex;flex-direction:column;align-items:flex-start;gap:24px;margin-top:clamp(28px,4vw,48px)}
+@media(min-width:960px){.imp-foot{flex-direction:row;align-items:center;justify-content:space-between;gap:40px}}
+.sec-acc .verdict{margin-top:0;color:var(--ink);width:auto;flex:1 1 auto}
+.sec-acc .verdict em{color:#fff}
+.btn-ink{color:var(--bone);background:var(--ink);box-shadow:0 14px 30px -14px rgba(22,18,15,.8)}
+.btn-ink:hover{background:var(--ink3)}
+
 .otz-wrap{position:relative;z-index:1;--otzw:min(70vw,262px);--otzg:14px}
 @media(min-width:760px){.otz-wrap{--otzg:18px}}
 .otz{display:flex;gap:var(--otzg);overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
@@ -452,6 +468,7 @@ body.vmod-open .hdr,body.vmod-open .bar{opacity:0;pointer-events:none;transition
 .form input:focus,.form textarea:focus{outline:0;border-color:var(--acc);background:rgba(241,235,226,.06)}
 .form input.bad{border-color:#E0553B}
 .hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.hp input{opacity:0}   /* трекер LeadBot узнаёт ловушку по невидимости поля и не шлёт спам как заявку */
 .form .btn{width:100%;margin-top:4px}
 .f-err{color:#F09A82;font-size:13px}
 .f-ok{color:var(--bone);font-size:14px;padding:12px 14px;border:1px solid rgba(226,103,59,.5)}
