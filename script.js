@@ -373,7 +373,7 @@ function renderQuiz(){
          '<div class="meter">' + [0,1,2,3].map(function(i){ return '<i class="' + (i < 4 - lvlIdx ? "lit" : "") + '"></i>'; }).join("") + '<em style="left:0"></em></div>' +
          '<p>' + r.p + '</p><div class="blk"><h4>' + r.bh + '</h4><ul>' + r.b.map(function(b){ return "<li>" + b + "</li>"; }).join("") + '</ul></div>' +
          '<span class="pot"><b>' + ui.pot + ':</b> ' + r.pot + '</span>' +
-         '<div class="cta"><a class="btn btn-p" data-wa="test" target="_blank" rel="noopener" href="' + waHref("test", {lvl:r.h, score:String(s)}) + '">' + svgWa + '<span>' + r.cta + '</span></a></div>' +
+         '<div class="cta"><a class="btn btn-p" href="#zayavka" data-q="toform" data-res="' + esc(r.h) + ' · ' + s + '/60">' + '<span>' + r.cta + '</span>' + svgArr + '</a></div>' +
          '<button class="q-again" type="button" data-q="again">' + ui.again + '</button></div>', function(scr){
            var em = scr.querySelector(".meter em");
            setTimeout(function(){ if (em) em.style.left = "calc(" + pos.toFixed(1) + "% - 1px)"; }, 120);
@@ -396,6 +396,14 @@ if (qview) qview.addEventListener("click", function(e){
       if (quiz.step >= 15) quiz.score = quiz.ans.reduce(function(a, x){ return a + x; }, 0);
       renderQuiz();
     }, RED ? 0 : 260);
+  } else if (act === "toform") {
+    /* результат теста кладём в поле заявки - человеку не надо его пересказывать */
+    var big = document.getElementById("form");
+    if (big && big.elements.msg && !big.elements.msg.value.trim()) {
+      /* казахская подпись - только в словаре: в script.js казахских букв быть не должно */
+      var lab = (curLang() === "kk" && UI.kk && UI.kk.testlab) || "Тест «Денежный детектор»";
+      big.elements.msg.value = lab + ": " + b.dataset.res;
+    }
   } else if (act === "back") {
     quiz.step = Math.max(0, quiz.step - 1); renderQuiz();
   } else if (act === "again") {
@@ -405,24 +413,32 @@ if (qview) qview.addEventListener("click", function(e){
   }
 });
 
-/* ---------------- ФОРМА → WhatsApp ---------------- */
-var form = document.getElementById("form");
-if (form) form.addEventListener("submit", function(e){
-  e.preventDefault();
-  var name = form.name.value.trim(), phone = form.phone.value.trim(), msg = form.msg.value.trim();
-  var err = document.getElementById("ferr"), ok = document.getElementById("fok");
-  if (form.website.value) return;                               /* honeypot */
-  var bad = !name || phone.replace(/\D/g, "").length < 10;
-  form.name.classList.toggle("bad", !name);
-  form.phone.classList.toggle("bad", phone.replace(/\D/g, "").length < 10);
-  if (err) err.hidden = !bad;
-  if (bad) return;
-  var ft = FORM_TXT[curLang()] || FORM_TXT.ru;
-  var text = ft.head + name + ft.tel + phone + (msg ? ft.msg + msg : "");
-  if (window.awReport && window.AW_CONV) awReport(AW_CONV.form);   /* цель: отправка формы */
-  window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(text), "_blank", "noopener");
-  if (ok) ok.hidden = false;
-  form.reset();
+/* ---------------- ФОРМЫ ЗАЯВКИ ----------------
+   Форм на странице две: короткая в герое и полная в блоке «Заявка».
+   Обе валидируются одинаково, телефон обязателен (10+ цифр).
+   Заявка уходит в бота учёта обращений (трекер слушает submit), а следом
+   открывается WhatsApp с текстом заявки - страховка, чтобы ни одно обращение не потерялось. */
+document.querySelectorAll("form.form").forEach(function(form){
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var f = form.elements;
+    var name = f.name.value.trim(), phone = f.phone.value.trim();
+    var msg = f.msg ? f.msg.value.trim() : "";
+    var err = form.querySelector(".f-err"), ok = form.querySelector(".f-ok");
+    if (f.website && f.website.value) return;                   /* honeypot */
+    var badPhone = phone.replace(/\D/g, "").length < 10;
+    var bad = !name || badPhone;
+    f.name.classList.toggle("bad", !name);
+    f.phone.classList.toggle("bad", badPhone);
+    if (err) err.hidden = !bad;
+    if (bad) { (!name ? f.name : f.phone).focus(); return; }
+    var ft = FORM_TXT[curLang()] || FORM_TXT.ru;
+    var text = ft.head + name + ft.tel + phone + (msg ? ft.msg + msg : "");
+    if (window.awReport && window.AW_CONV) awReport(AW_CONV.form);   /* цель: отправка формы */
+    window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+    if (ok) ok.hidden = false;
+    form.reset();
+  });
 });
 
 /* ---------------- ВИДЕО-ОТЗЫВЫ ---------------- */
