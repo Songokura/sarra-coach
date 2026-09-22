@@ -17,8 +17,11 @@ var root = document.documentElement;
 var KZ = {};
 /* версия файла языка - та же, что у script.js (?v=), бампается вместе с ассетами */
 var KK_SRC = (function(){
-  var s = document.currentScript, m = s && s.src ? s.src.match(/[?&]v=([^&#]+)/) : null;
-  return "assets/lang/kk.js" + (m ? "?v=" + m[1] : "");
+  var s = document.currentScript, src = (s && s.src) || "";
+  var m = src.match(/[?&]v=([^&#]+)/);
+  var base = src.replace(/[?#].*$/, "").replace(/[^/]*$/, "");   /* папка script.js = корень сайта */
+  var file = (s && s.getAttribute("data-kk")) || "assets/lang/kk.js";  /* у посадочных - свой словарь */
+  return base + file + (m ? "?v=" + m[1] : "");
 })();
 var kkLoading = false, kkWait = [];
 function mergeKK(){
@@ -58,6 +61,8 @@ ru:{
   samoz:"Здравствуйте, Сарра! Узнаю у себя синдром самозванца. Хочу разобрать это на диагностике."
 }
 };
+/* посадочные страницы подставляют свои русские тексты (window.SITE_WA_RU в разметке) */
+if (window.SITE_WA_RU) Object.keys(window.SITE_WA_RU).forEach(function(k){ WA_TXT.ru[k] = window.SITE_WA_RU[k]; });
 
 /* текст заявки из формы */
 var FORM_TXT = {

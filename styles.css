@@ -496,3 +496,12 @@ html.js .prog.rv:nth-child(2){transition-delay:.08s}html.js .prog.rv:nth-child(3
   .hero-txt > *{opacity:1;transform:none}
   *{transition-duration:.01ms!important}
 }
+
+/* карточки-направления: ссылки на посадочные страницы под запрос (главная и посадочные) */
+.progs.cards{display:grid;grid-template-columns:1fr;gap:14px;overflow:visible;padding:0;width:min(1200px,100% - 40px);margin-inline:auto;scroll-snap-type:none}
+@media(min-width:680px){.progs.cards{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}}
+.progs.cards .prog{flex:auto;min-height:0;padding:0}
+.progs.cards .prog h3::before,.progs.cards .prog h3::after{content:none}
+.progs.cards .prog a{display:flex;flex-direction:column;justify-content:flex-end;gap:10px;min-height:190px;padding:26px 22px 24px;color:inherit;text-decoration:none}
+.progs.cards .prog a::after{content:"→";color:var(--acc);font-size:20px;line-height:1;margin-top:2px;transition:transform .35s var(--ease)}
+.progs.cards .prog:hover a::after{transform:translateX(6px)}
